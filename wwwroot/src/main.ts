@@ -57,7 +57,6 @@ document.querySelector("#rest-get-array").addEventListener("click", async e => {
         }
     });
 });
-
 document.querySelector("#grpc-unary-array").addEventListener("click", async e => {
     await performTest((e.currentTarget as Element), async (sw, e, items) => {
         try {
@@ -74,8 +73,6 @@ document.querySelector("#grpc-unary-array").addEventListener("click", async e =>
         } 
     })
 });
-
-
 document.querySelector("#signalr-invoke-array").addEventListener("click", async e => {
     await performTest((e.currentTarget as Element), async (sw, e, items) => {
         if (testHub.state != signalR.HubConnectionState.Connected) {
@@ -115,8 +112,6 @@ document.querySelector("#rest-parallel-get").addEventListener("click", async e =
         } 
     });
 });
-
-
 document.querySelector("#grpc-parallel-unary").addEventListener("click", async e => {
     await performTest((e.currentTarget as Element), async (sw, e, items, calls) => {
         const promises = new Array<() => Promise<void>>();
@@ -139,8 +134,6 @@ document.querySelector("#grpc-parallel-unary").addEventListener("click", async e
         } 
     });
 });
-
-
 document.querySelector("#signalr-parallel-invoke").addEventListener("click", async e => {
     await performTest((e.currentTarget as Element), async (sw, e, items, calls) => {
         if (testHub.state != signalR.HubConnectionState.Connected) {
@@ -161,4 +154,167 @@ document.querySelector("#signalr-parallel-invoke").addEventListener("click", asy
             e.innerHTML = error.message;
         } 
     });
+});
+
+document.querySelector("#rest-post-content").addEventListener("click", async e => {
+    await performTest((e.currentTarget as Element), async (sw, e, items) => {
+        const content = "x".repeat(items);
+        sw.Start();
+        const response = await fetch(`rest-controller`, {method: "POST", body: content, headers: { type: "text/plain" }});
+        if (response.ok) {
+            sw.Stop();
+            e.innerHTML = sw.GetValue();
+        } else {
+            e.innerHTML = response.statusText;
+        }
+    });
+});
+document.querySelector("#grpc-send-content").addEventListener("click", async e => {
+    await performTest((e.currentTarget as Element), async (sw, e, items) => {
+        const content = "x".repeat(items);
+        try {
+            sw.Start();
+            const result = await service.unaryCall({
+                service: "/test.TestProtoService/PostData",
+                request: [GrpcType.String],
+                reply: []
+            }, content);
+            sw.Stop();
+            e.innerHTML = sw.GetValue();
+        } catch (error) {
+            e.innerHTML = error.message;
+        } 
+    })
+});
+document.querySelector("#signalr-send-content").addEventListener("click", async e => {
+    await performTest((e.currentTarget as Element), async (sw, e, items) => {
+        if (testHub.state != signalR.HubConnectionState.Connected) {
+            await testHub.start();
+        }
+        const content = "x".repeat(items);
+        try { 
+            sw.Start();
+            const result = await testHub.send("PostData", content);
+            sw.Stop();
+            e.innerHTML = sw.GetValue();
+        } catch (error) {
+            e.innerHTML = error.message;
+        } 
+    })
+});
+
+document.querySelector("#rest-post-parallel").addEventListener("click", async e => {
+    await performTest((e.currentTarget as Element), async (sw, e, items, calls) => {
+        const content = "x".repeat(items);
+        const promises = new Array<() => Promise<void>>();
+        for (let i = 0; i < calls; i++) {
+            promises.push(async () => {
+                const response = await fetch(`rest-controller`, {method: "POST", body: content, headers: { type: "text/plain" }});
+            })
+        }
+        try{ 
+            sw.Start();
+            await Promise.all(promises.map(p => p()));
+            sw.Stop();
+            e.innerHTML = sw.GetValue();
+        } catch (error) {
+            e.innerHTML = error.message;
+        } 
+    });
+});
+document.querySelector("#grpc-send-parallel").addEventListener("click", async e => {
+    await performTest((e.currentTarget as Element), async (sw, e, items, calls) => {
+        const content = "x".repeat(items);
+        const promises = new Array<() => Promise<void>>();
+        for (let i = 0; i < calls; i++) {
+            promises.push(async () => {
+                const result = await service.unaryCall({
+                    service: "/test.TestProtoService/PostData",
+                    request: [GrpcType.String],
+                    reply: []
+                }, content);
+            })
+        }
+        try{ 
+            sw.Start();
+            await Promise.all(promises.map(p => p()));
+            sw.Stop();
+            e.innerHTML = sw.GetValue();
+        } catch (error) {
+            e.innerHTML = error.message;
+        } 
+    });
+});
+document.querySelector("#signalr-send-parallel").addEventListener("click", async e => {
+    await performTest((e.currentTarget as Element), async (sw, e, items, calls) => {
+        if (testHub.state != signalR.HubConnectionState.Connected) {
+            await testHub.start();
+        }
+        const content = "x".repeat(items);
+        const promises = new Array<() => Promise<void>>();
+        for (let i = 0; i < calls; i++) {
+            promises.push(async () => {
+                const result = await testHub.send("PostData", content);
+            })
+        }
+        try{ 
+            sw.Start();
+            await Promise.all(promises.map(p => p()));
+            sw.Stop();
+            e.innerHTML = sw.GetValue();
+        } catch (error) {
+            e.innerHTML = error.message;
+        } 
+    });
+});
+
+document.querySelector("#grpc-streaming").addEventListener("click", async e => {
+    await performTest((e.currentTarget as Element), (sw, e, items) => new Promise<void>((resolve, reject) => {
+ 
+            sw.Start();
+            const stream = service.serverStreaming({
+                service: "/test.TestProtoService/StreamTest",
+                request: [GrpcType.Int32],
+                reply: [{id: GrpcType.Int32}, {name: GrpcType.String}, {email: GrpcType.String}]
+            }, items);
+
+            stream
+                .on("error", error => {
+                    e.innerHTML = error.message;
+                    resolve();
+                })
+                .on("status", status => {})
+                .on("data", data => {
+                    //console.log(data);
+                })
+                .on("end", () => {
+                    sw.Stop();
+                    e.innerHTML = sw.GetValue();
+                    resolve();
+                });
+    }));
+});
+
+document.querySelector("#signalr-streaming").addEventListener("click", async e => {
+    const btn = e.currentTarget as Element;
+    if (testHub.state != signalR.HubConnectionState.Connected) {
+        await testHub.start();
+    }
+    await performTest(btn, (sw, e, items) => new Promise<void>((resolve, reject) => {
+        sw.Start();
+        testHub.stream("StreamData", items).subscribe({
+            error: error => {
+                e.innerHTML = error.message;
+                resolve();
+            },
+            next: item => {
+                //console.log(item);
+            },
+            complete: () => {
+                sw.Stop();
+                e.innerHTML = sw.GetValue();
+                resolve();
+            }
+        } as signalR.IStreamSubscriber<any>)
+    }));
 });

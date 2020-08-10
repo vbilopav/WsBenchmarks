@@ -59,7 +59,6 @@
     <main class="container">
 
         <div class="row">
-            
             <div class="col-sm">
                 <div class="card">
                     <div class="card-body">
@@ -69,14 +68,14 @@
                             Number of items (max @TestDataService.MaxItems): <input type="number" max="@TestDataService.MaxItems" min="0" value="@TestDataService.MaxItems" class="items form-control" placeholder="">
                         </p>
                         <button id="rest-get-array" class="btn btn-sm btn-primary">Test</button>
-                        
+
                         <code>
                         </code>
-                        
+
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-sm">
                 <div class="card">
                     <div class="card-body">
@@ -108,9 +107,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
-        
+
         <div class="row">
             <div class="col-sm">
                 <div class="card">
@@ -124,18 +122,18 @@
                             Number of calls (max 1000): <input type="number" max="1000" min="0" value="750" class="calls form-control" placeholder="">
                         </p>
                         <button id="rest-parallel-get" class="btn btn-sm btn-primary">Test</button>
-                        
+
                         <code>
                         </code>
-                        
+
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-sm">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">gRPC-Web parallel unary call</h5>
+                        <h5 class="card-title">gRPC-Web parallel unary calls</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Test parallel gRPC-Web unary calls that return an array</h6>
                         <p class="card-text">
                             Number of items (max @TestDataService.MaxItems): <input type="number" max="@TestDataService.MaxItems" min="0" value="10" class="items form-control" placeholder="">
@@ -144,14 +142,14 @@
                             Number of calls (max 1000): <input type="number" max="1000" min="0" value="750" class="calls form-control" placeholder="">
                         </p>
                         <button id="grpc-parallel-unary" class="btn btn-sm btn-primary">Test</button>
-                        
+
                         <code>
                         </code>
-                        
+
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-sm">
                 <div class="card">
                     <div class="card-body">
@@ -164,14 +162,175 @@
                             Number of calls (max 1000): <input type="number" max="1000" min="0" value="750" class="calls form-control" placeholder="">
                         </p>
                         <button id="signalr-parallel-invoke" class="btn btn-sm btn-primary">Test</button>
-                        
+
                         <code>
                         </code>
-                        
+
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">REST post content</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Test sending big content with REST post</h6>
+                        <p class="card-text">
+                            Content length (max 20000000): <input type="number" max="20000000" min="0" value="100000" class="items form-control" placeholder="">
+                        </p>
+                        <button id="rest-post-content" class="btn btn-sm btn-primary">Test</button>
+
+                        <code>
+                        </code>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">gRPC-Web send content</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Test sending big content with gRPC-Web unary call</h6>
+                        <p class="card-text">
+                            Content length (max 100000000): <input type="number" max="100000000" min="0" value="100000" class="items form-control" placeholder="">
+                        </p>
+                        <button id="grpc-send-content" class="btn btn-sm btn-primary">Test</button>
+
+                        <code>
+                        </code>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">SignalR send content</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Test sending big content with signalR</h6>
+                        <p class="card-text">
+                            Content length (max 100000000): <input type="number" max="100000000" min="0" value="100000" class="items form-control" placeholder="">
+                        </p>
+                        <button id="signalr-send-content" class="btn btn-sm btn-primary">Test</button>
+
+                        <code>
+                        </code>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">REST post content parallel</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Test sending content with REST post in parallel</h6>
+                        <p class="card-text">
+                            Content length (max 20000000): <input type="number" max="20000000" min="0" value="1000" class="items form-control" placeholder="">
+                        </p>
+                        <p class="card-text">
+                            Number of calls (max 1000): <input type="number" max="1000" min="0" value="750" class="calls form-control" placeholder="">
+                        </p>
+                        <button id="rest-post-parallel" class="btn btn-sm btn-primary">Test</button>
+
+                        <code>
+                        </code>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">gRPC-Web parallel send</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Test sending content with gRPC-Web send in parallel using unary call</h6>
+                        <p class="card-text">
+                            Content length (max 100000000): <input type="number" max="100000000" min="0" value="1000" class="items form-control" placeholder="">
+                        </p>
+                        <p class="card-text">
+                            Number of calls (max 1000): <input type="number" max="1000" min="0" value="750" class="calls form-control" placeholder="">
+                        </p>
+                        <button id="grpc-send-parallel" class="btn btn-sm btn-primary">Test</button>
+
+                        <code>
+                        </code>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">SignalR send parallel</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Test sending big content with signalR</h6>
+                        <p class="card-text">
+                            Content length (max 100000000): <input type="number" max="100000000" min="0" value="1000" class="items form-control" placeholder="">
+                        </p>
+                        <p class="card-text">
+                            Number of calls (max 1000): <input type="number" max="1000" min="0" value="750" class="calls form-control" placeholder="">
+                        </p>
+                        <button id="signalr-send-parallel" class="btn btn-sm btn-primary">Test</button>
+
+                        <code>
+                        </code>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div class="row">
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">REST Streaming</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Unavailable</h6>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">gRPC-Web streaming</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Test streaming from gRPC-Web results</h6>
+                    <p class="card-text">
+                        Number of items (max @TestDataService.MaxItems): <input type="number" max="@TestDataService.MaxItems" min="0" value="@TestDataService.MaxItems" class="items form-control" placeholder="">
+                    </p>
+                    <button id="grpc-streaming" class="btn btn-sm btn-primary">Test</button>
+
+                    <code>
+                    </code>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">SignalR streaming</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Test streaming results from signalR</h6>
+                    <p class="card-text">
+                        Number of items (max @TestDataService.MaxItems): <input type="number" max="@TestDataService.MaxItems" min="0" value="@TestDataService.MaxItems" class="items form-control" placeholder="">
+                    </p>
+                    <button id="signalr-streaming" class="btn btn-sm btn-primary">Test</button>
+
+                    <code>
+                    </code>
+
+                </div>
+            </div>
+        </div>
+    </div>
     </main>
 
     <footer class="border-top footer text-muted">

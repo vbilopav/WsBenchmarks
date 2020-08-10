@@ -6,6 +6,8 @@ package test;
 
 service TestProtoService {
 	rpc GetData (GetDataRequest) returns (GetDataReply);
+	rpc PostData (PostDataRequest) returns (PostDataReply);
+	rpc StreamTest (GetDataRequest) returns (stream Data);
 }
 
 message Data {
@@ -22,4 +24,9 @@ message GetDataReply {
 	repeated Data Results = 1;
 }
 
+message PostDataRequest { 
+	string content = 1;
+}
 
+message PostDataReply { 
+}
