@@ -1,0 +1,121 @@
+﻿@page
+@namespace WsBenchmarks.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+@using WsBenchmarks.Services
+@model IndexModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WsBenchmarks</title>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"
+          asp-fallback-href="~/lib/twitter-bootstrap/css/bootstrap.min.css"
+          asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+          crossorigin="anonymous"
+          integrity="sha512-rO2SXEKBSICa/AfyhEK5ZqWFCOok1rcgPYfGOqtX35OyiraBg6Xa4NnBJwXgpIRoXeWjcAmcQniMhp22htDc6g==" />
+    <style>
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+        body {
+            margin-bottom: 60px;
+        }
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            white-space: nowrap;
+            line-height: 60px; 
+        }
+        .card {
+            width: 18rem;
+        }
+        code {
+            margin-left: 15px
+            }
+
+        .card button {
+            width: 75px;
+            }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">Reload</a>
+            </div>
+        </nav>
+    </header>
+    <main class="container">
+
+        <div class="row">
+            
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">REST get</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Test fetching array of items from REST endpoint</h6>
+                        <p class="card-text">
+                            Number of items (max @TestDataService.MaxItems): <input type="number" max="@TestDataService.MaxItems" min="0" value="@TestDataService.MaxItems" class="form-control" placeholder="">
+                        </p>
+                        <button id="rest-get-array" class="btn btn-sm btn-primary">Test</button>
+                        
+                        <code>
+                        </code>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">gRPC-Web unary call</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Test fetching array of items with gRPC-Web unary call</h6>
+                        <p class="card-text">
+                            Number of items (max @TestDataService.MaxItems): <input type="number" max="@TestDataService.MaxItems" min="0" value="@TestDataService.MaxItems" class="form-control" placeholder="">
+                        </p>
+                        <button id="grpc-unary-array" class="btn btn-sm btn-primary">Test</button>
+
+                        <code>
+                        </code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">SignalR Invoke</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Test SignalR Invoke method that returns array of items</h6>
+                        <p class="card-text">
+                            Number of items (max @TestDataService.MaxItems): <input type="number" max="@TestDataService.MaxItems" min="0" value="@TestDataService.MaxItems" class="form-control" placeholder="">
+                        </p>
+                        <button id="signalr-invoke-array" class="btn btn-sm btn-primary">Test</button>
+
+                        <code>
+                        </code>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - VB Consulting
+        </div>
+    </footer>
+
+    <script src="~/js/app.js" asp-append-version="true"></script>
+
+</body>
+</html>

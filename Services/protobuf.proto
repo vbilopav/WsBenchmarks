@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option csharp_namespace = "WsBenchmarks.Services";
+
+package test;
+
+service TestProtoService {
+	rpc GetData (GetDataRequest) returns (GetDataReply);
+}
+
+message Data {
+	int32 Id = 1;
+	string Name = 2;
+	string Email = 3;
+}
+
+message GetDataRequest { 
+	int32 Take = 1;
+}
+
+message GetDataReply {
+	repeated Data Results = 1;
+}
+
+

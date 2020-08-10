@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "devDependencies": {
+    "browserify": "^16.5.2",
+    "google-protobuf": "^3.12.4",
+    "grpc-web": "^1.2.0",
+    "tsify": "^5.0.0",
+    "typescript": "^3.9.7",
+    "watchify": "^3.11.1"
+  },
+  "scripts": {
+    "watch": "watchify -p tsify ./wwwroot/src/main.ts -o ./wwwroot/js/app.js --debug",
+    "build": "browserify -p tsify ./wwwroot/src/main.ts > ./wwwroot/js/app.js --debug"
+  },
+  "dependencies": {
+    "@microsoft/signalr": "^3.1.6",
+    "@types/node": "^14.0.27"
+  }
+}
