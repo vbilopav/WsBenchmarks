@@ -14,7 +14,7 @@ class Stopwatch {
     }
     GetValue() {
         const d = new Date(this.endTime - this.startTime);
-        return `${d.getMinutes().toString().padStart(2, "0")}:${d.getSeconds().toString().padStart(2, "0")}:${d.getMilliseconds().toString().padStart(4, "0")}`;
+        return `${d.getMinutes().toString().padStart(2, "0")}:${d.getSeconds().toString().padStart(2, "0")}.${d.getMilliseconds().toString().padStart(4, "0")}`;
     }
 }
 const performTest = async (btn, callback) => {
@@ -274,9 +274,9 @@ document.querySelector("#grpc-streaming").addEventListener("click", async (e) =>
     await performTest(e.currentTarget, (sw, e, items) => new Promise((resolve, reject) => {
         sw.Start();
         const stream = service.serverStreaming({
-            service: "/test.TestProtoService/GetData",
+            service: "/test.TestProtoService/StreamTest",
             request: [grpc_service_1.GrpcType.Int32],
-            reply: [{ results: [{ id: grpc_service_1.GrpcType.Int32 }, { name: grpc_service_1.GrpcType.String }, { email: grpc_service_1.GrpcType.String }] }]
+            reply: [{ id: grpc_service_1.GrpcType.Int32 }, { name: grpc_service_1.GrpcType.String }, { email: grpc_service_1.GrpcType.String }]
         }, items);
         stream
             .on("error", error => {
@@ -284,7 +284,8 @@ document.querySelector("#grpc-streaming").addEventListener("click", async (e) =>
             resolve();
         })
             .on("status", status => { })
-            .on("data", data => { })
+            .on("data", data => {
+        })
             .on("end", () => {
             sw.Stop();
             e.innerHTML = sw.GetValue();

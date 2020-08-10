@@ -19,7 +19,7 @@ class Stopwatch {
 
     public GetValue() {
         const d = new Date(this.endTime - this.startTime);
-        return `${d.getMinutes().toString().padStart(2, "0")}:${d.getSeconds().toString().padStart(2, "0")}:${d.getMilliseconds().toString().padStart(4, "0")}`;
+        return `${d.getMinutes().toString().padStart(2, "0")}:${d.getSeconds().toString().padStart(2, "0")}.${d.getMilliseconds().toString().padStart(4, "0")}`;
     }
 }
 
@@ -270,7 +270,7 @@ document.querySelector("#signalr-send-parallel").addEventListener("click", async
 
 document.querySelector("#grpc-streaming").addEventListener("click", async e => {
     await performTest((e.currentTarget as Element), (sw, e, items) => new Promise<void>((resolve, reject) => {
- 
+
             sw.Start();
             const stream = service.serverStreaming({
                 service: "/test.TestProtoService/StreamTest",
