@@ -19,12 +19,21 @@ class Stopwatch {
 }
 const performTest = async (btn, callback) => {
     const code = btn.nextElementSibling;
-    const items = btn.previousElementSibling.getElementsByTagName("input")[0].value;
+    let items;
+    let calls;
+    let e = btn.parentElement.getElementsByClassName("items")[0];
+    if (e) {
+        items = Number(e.value);
+    }
+    e = btn.parentElement.getElementsByClassName("calls")[0];
+    if (e) {
+        calls = Number(e.value);
+    }
     const sw = new Stopwatch();
     btn.setAttribute("disabled", "");
     const btnText = btn.innerHTML;
     btn.innerHTML = "working";
-    await callback(sw, code, Number(items));
+    await callback(sw, code, items, calls);
     btn.removeAttribute("disabled");
     btn.innerHTML = btnText;
 };
@@ -59,8 +68,44 @@ document.querySelector("#grpc-unary-array").addEventListener("click", async (e) 
         }
     });
 });
-document.querySelector("#signalr-unary-array").addEventListener("click", async (e) => {
+document.querySelector("#signalr-invoke-array").addEventListener("click", async (e) => {
     await performTest(e.currentTarget, async (sw, e, items) => {
-        const result = await testHub.invoke("GetData", items);
+        if (testHub.state != signalR.HubConnectionState.Connected) {
+            await testHub.start();
+        }
+        try {
+            sw.Start();
+            const result = await testHub.invoke("GetData", items);
+            sw.Stop();
+            e.innerHTML = sw.GetValue();
+        }
+        catch (error) {
+            e.innerHTML = error.message;
+        }
+    });
+});
+document.querySelector("#rest-parallel-get").addEventListener("click", async (e) => {
+    await performTest(e.currentTarget, async (sw, e, items, calls) => {
+        const promises = new Array();
+        for (let i = 0; i < calls; i++) {
+            promises.push(async () => {
+                const response = await fetch(`rest-controller/${items}`);
+                if (response.ok) {
+                    const result = await response.json();
+                }
+                else {
+                    throw response;
+                }
+            });
+        }
+        try {
+            sw.Start();
+            await Promise.all(promises.map(p => p()));
+            sw.Stop();
+            e.innerHTML = sw.GetValue();
+        }
+        catch (error) {
+            e.innerHTML = error.message;
+        }
     });
 });
